@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网上物流</title>
+    <link rel='stylesheet' href='css/font-awesome.min.css'/>
+    <link rel='stylesheet' href='css/bootstrap.css'/>
+    <link rel='stylesheet' href='css/app.css'/>
+    <link rel='stylesheet' href='css/animate.css'/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="layer/layer.js"></script>
+
+    <style>
+        body{
+            /*background:url(img/regeistBg.jpg) no-repeat center left;*/
+        }
+       .navbar-top {
+            background: rgba(0,0,0,.3);
+            border: none;
+        }
+      /*  .app-footer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1005;
+        }*/
+    </style>
+</head>
+<body id="app">
+<div class="header">
+   <!-- <header id="header" class="app-header">
+        <div style="background-color: rgb(112,112,112); ">
+            <div class="container">
+                <div class="row">
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav text-info navbar-right" id="userDropdown">
+                            <li>
+                                <a href="/loginIn.html" style="color: #ffffff;padding-top: 6px;padding-bottom: 6px;">登录</a>
+                            </li>
+                            <li>
+                                <a href="/register.html" style="color: #ffffff;padding-top: 6px;padding-bottom: 6px;">注册</a>
+                            </li>
+                            <li>
+                                <a href="/admin/login.html" target="_blank" style="color: #ffffff;padding-top: 6px;padding-bottom: 6px;">管理中心</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>-->
+</div>
+<div class="container">
+    <div class="row m-b-none m-t-md">
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <a class="title">用户基本信息填写</a>
+                </div>
+                <div class="panel-body">
+                    <!-- 账号登录 -->
+                    <div id="account_login">
+                        <form class="bs-example form-horizontal">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">登录名：</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"  name="name" placeholder="请输入登录名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">密码：</label>
+                                <div class="col-lg-10">
+                                    <input type="password" class="form-control"  name="password" placeholder="请输入密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">请选择用户类型：</label>
+                                <div class="col-lg-10">
+                                    <div class="col-lg-4 m-t-sm">
+                                        <label class="i-checks">
+                                            <input type="radio" name="type" value="2">
+                                            <i></i>
+                                            物流公司
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-4 m-t-sm">
+                                        <label class="i-checks">
+                                            <input type="radio" name="type" value="1">
+                                            <i></i>
+                                            企业
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">姓名：</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"  name="userName" placeholder="请输入姓名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">性别：</label>
+                                <div class="col-lg-10">
+                                    <div class="col-lg-4 m-t-sm">
+                                        <label class="i-checks">
+                                            <input type="radio" name="sex" value="1">
+                                            <i></i>
+                                                男
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-4 m-t-sm">
+                                        <label class="i-checks">
+                                            <input type="radio" name="sex" value="2">
+                                            <i></i>
+                                            女
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">电话号码：</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"  name="phone" placeholder="请输入电话号码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">E-mail：</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"  name="mail" placeholder="请输入E-mail">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">公司名称：</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"  name="company" placeholder="请输入公司名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">公司所在地：</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"  name="address" placeholder="请输入公司所在地">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">身份证号码：</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control"  name="idCard" placeholder="请输入身份证号码">
+                                </div>
+                            </div>
+                              <!--<div class="list-group m-b-md">
+                                  <div class="list-group-item">
+                                      <input type="text" name="name" placeholder="姓名" class="form-control no-border"
+                                      >
+                                  </div>
+                                  <div class="list-group-item">
+                                      <input name="password" placeholder="密码" type="password" class="form-control no-border" >
+                                  </div>
+                                  <div class="list-group-item">
+                                      <div class="row">
+                                          <div class="col-sm-4" style="padding: 0px;padding-left: 10px;">
+                                              <p class="m-l-md">类型：</p>
+                                              &lt;!&ndash;<label class="i-checks">
+                                                  <input type="radio" name="a" value="3">
+                                                  <i></i>
+                                                  普通用户
+                                              </label>&ndash;&gt;
+                                          </div>
+                                          <div class="col-sm-4" style="padding:0px;">
+                                              <label class="i-checks">
+                                                  <input type="radio" name="a" value="2">
+                                                  <i></i>
+                                                  物流公司
+                                              </label>
+                                          </div>
+                                          <div class="col-sm-4" style="padding:0px;">
+                                              <label class="i-checks">
+                                                  <input type="radio" name="a" value="1">
+                                                  <i></i>
+                                                  企业
+                                              </label>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>-->
+
+                            <div class="form-group text-center">
+                                <div class="col-lg-2 col-lg-offset-5">
+                                    <a  id="regis" class="btn btn-md btn-info w-sm btn-block">注册</a>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <p class="text-center m-t-sm"><small><a href="loginIn.html">已有账户，去登陆->
+                                </a></small>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="footer"></div>
+<!--<footer class="app-footer hidden-xs">
+        <style>
+            footer.app-footer{
+                margin-left:0px;
+                position: absolute;
+            }
+        </style>
+        <div class="bg-dark">
+            <div class="container">
+                <div class="text-center wrapper-sm" style="line-height: 24px;">
+                    <p> Copyright ©2017 by 邓雯文</p>
+                </div>
+            </div>
+        </div>
+    </footer>-->
+
+
+</body>
+<script>
+    var $ = jQuery;
+    jQuery(".header").load("header.html");
+    jQuery(".footer").load("footer.html");
+    setTimeout(function(){
+        $("#headerStyle li").removeClass('active');
+    },100);
+    $("#regis").click(function(){
+        var name = $("input[name=name]").val();
+        var password = $("input[name=password]").val();
+        var type = $("input[name=type]:checked").val();
+        var userName =  $("input[name=userName]").val();
+        var sex = $("input[name=sex]:checked").val();
+        var phone =  $("input[name=phone]").val();
+        var mail =  $("input[name=mail]").val();
+        var company =  $("input[name=company]").val();
+        var address =  $("input[name=address]").val();
+        var idCard =  $("input[name=idCard]").val();
+        var dataString = {
+            name:name,
+            password:password,
+            type:type,
+            userName:userName,
+            sex:sex,
+            phone:phone,
+            mail:mail,
+            company:company,
+            address:address,
+            idCard:idCard
+        };
+        $.get("/users/addUser",dataString,function(data){
+            if(data.code=200){
+                layer.msg('恭喜您!注册成功！', {icon: 1, time: 4000});
+                window.location.href="/loginIn.html"
+            }else{
+                layer.msg('注册失败！', {icon: 2, time: 4000});
+            }
+
+        },'json')
+    })
+
+</script>
+
+</html>

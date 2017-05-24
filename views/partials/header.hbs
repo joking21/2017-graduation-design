@@ -1,0 +1,157 @@
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel='stylesheet' href='/css/font-awesome.min.css'/>
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <link rel='stylesheet' href='/css/app.css'/>
+    <link rel='stylesheet' href='/css/animate.css'/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/app.min.js"></script>
+    <script src="/js/main.js"></script>
+    <style>
+        label{
+            color:#000;
+        }
+        div , p ,span,li{
+            font-size:18px;!important;
+        }
+        .navbar-default .navbar-nav > li > a {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<div class="header">
+    <header class="navbar-top navbar navbar-default navbar-fixed-top " id="top" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                    <span class="sr-only">网上物流系统</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img src="/img/logo.png" style="min-height:26px;">
+                </a>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                 <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="/">首页</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class="">
+                        <a href="/progress.html">进度查询</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/requireShow.html">最新需求</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/receiveTemp.html">受理订单</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">about</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/admin/login.html" target="_blank">管理中心</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" id="messageIn">
+                   <!-- <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">
+                            <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
+                            <span translate="header.navbar.new.NEW">New</span> <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" translate="header.navbar.new.PROJECT">Projects</a></li>
+                            <li>
+                                <a href="">
+                                    <span class="badge bg-info pull-right">5</span>
+                                    <span translate="header.navbar.new.TASK">Task</span>
+                                </a>
+                            </li>
+                            <li><a href="" translate="header.navbar.new.USER">User</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="">
+                                    <span class="badge bg-danger pull-right">4</span>
+                                    <span translate="header.navbar.new.EMAIL">Email</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>-->
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle clear">
+                  <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                    <img src="/img/head.png" alt="..." style="background-color: rgb(246, 161, 181);">
+                    <i class="on md b-white bottom"></i>
+                  </span>
+                            <span class="hidden-sm hidden-md" id="loginName"></span> <b class="caret"></b>
+                        </a>
+                        <!-- dropdown -->
+                        <ul class="dropdown-menu animated fadeInUp w">
+                            <li>
+                                <a href="/myCenter.html">
+                                    <span>个人中心</span>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a class="loginOut">退出</a>
+                            </li>
+                        </ul>
+                        <!-- / dropdown -->
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right hidden" id="messageOut2">
+                    <li>
+                        <a href="/register.html">注册</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right hidden" id="messageOut1">
+                    <li>
+                        <a href="/loginIn.html">登录</a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <script>
+            console.log(sessionStorage.getItem('loginName'));
+            if(sessionStorage.getItem('loginName')){
+                $("#messageIn").removeClass('hidden');
+                $("#messageOut1").addClass('hidden');
+                $("#messageOut2").addClass('hidden');
+                $("#loginName").text(sessionStorage.getItem('loginName'));
+            }else{
+                $("#messageIn").addClass('hidden');
+                $("#messageOut1").removeClass('hidden');
+                $("#messageOut2").removeClass('hidden');
+            }
+            $(".loginOut").click(function(){
+                sessionStorage.removeItem('loginName');
+                window.location.href="/";
+            })
+
+
+        </script>
+    </header>
+    <img src="/img/bg_profile.jpg" class="img-responsive hidden-xs" alt="">
+</div>
+<style>
+    .navbar-top {
+        background: rgba(0,0,0,.3);
+        border: none;
+    }
+</style>

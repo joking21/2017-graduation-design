@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/css/font-awesome.min.css'/>
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <link rel='stylesheet' href='/css/app.css'/>
+    <link rel='stylesheet' href='/css/animate.css'/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/main.js"></script>
+    <style>
+        .vertical-center{
+            height:109px;
+            vertical-align: center;
+            padding-top: 36%;
+        }
+        #newRequire_list .list-group-item{
+            border: none;
+        }
+        #newRequire_list .list-group-item:hover{
+            background-color: #ddd;
+        }
+        .panel-heading{
+            background-color: #23b7e5 !important;
+            color:#fff !important;;
+        }
+    </style>
+</head>
+<body id="app">
+<div class="header"></div>
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- .breadcrumb -->
+                <ul class="breadcrumb no-borders no-radius bg-white  b-b ">
+                    <li><a href="/"><i class="icon icon-home"></i> 首页</a></li>
+                    <li class="active">需求展示</li>
+                </ul>
+                <!-- / .breadcrumb -->
+            </div>
+        </div>
+        <div class="panel panel-default project1">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="padding-left:13px;">所有未处理订单</h3>
+            </div>
+            <div class="panel-body wrapper-lg">
+                <div id="newRequire_template" style="display: none">
+                    <div class="list-group-item">
+                        <div class="row" style="padding: 0px;">
+                            <a href="/receiveOrder.html?id=$[id]">
+                                <div class="col-sm-12">
+                                    <p class="font-bold">$[title]</p>
+                                    <p>
+                                        <i class="fa fa-clock-o m-r-xs"></i><span>$[timestr]</span>
+                                    </p>
+
+                                    <p class="text-ellipsis">
+                                        $[content]
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group m-b-none" id="newRequire_list" style="line-height: 23px;">
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<div class="footer"></div>
+</body>
+<script>
+    jQuery(".header").load("header.html");
+    jQuery(".footer").load("footer.html");
+    setTimeout(function(){
+        $("#headerStyle li").removeClass('active');
+        $("#headerStyle ul:eq(3) li").addClass('active');
+    },100);
+    //获取最新需求
+    $.get("/requires/selectformStatus",{status:1},function(data){
+        var temp = $("#newRequire_template").children().prop('outerHTML');
+        for(var i in data){
+            var item = data[i];
+            item.timestr = formatTimeToStr(item.time);
+            var $temp = $(temp);
+            replaceElementInnerText($temp,item);
+            $("#newRequire_list").append($temp);
+        }
+        console.log(data);
+    },'json');
+</script>
+
+</html>

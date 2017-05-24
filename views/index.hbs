@@ -1,0 +1,97 @@
+{{>header}}
+<style>
+    .item_div {
+        position: absolute;
+        top: 152px;
+        left: 77px;
+    }
+    .require_left{
+        position:relative;
+    }
+    .vertical-center{
+        height:109px;
+        vertical-align: center;
+        padding-top: 36%;
+    }
+    #newRequire_list .list-group-item:hover{
+        border: 2px solid #00e4f8;
+    }
+    #newRequire_list .list-group-item:hover .col-sm-2{
+        background-color:#00e4f8 ;
+    }
+</style>
+<div class="container">
+    <div class="wrapper ">
+        <span class="inline bg-info ba-1">&nbsp;</span>
+        <span class="text-info text-lg">最新需求</span>
+        <span class="text text-sm text-muted m-l">LATEST DEMAND</span>
+        <small class="pull-right text-muted "><a href="/requireShow.html">More&gt;&gt;</a></small>
+    </div>
+    <div class="new-require" id="new-require">
+        <div class="pull-left text-white">
+            <div class="require_left">
+                <a href="">
+                    <img src="/img/index_need.png" class="img-full" alt="发布需求">
+                </a>
+                <div class="clear item_div text-center">
+                    <button type="button" class="btn btn-blue font-bold  btn-lg" style="background-color: #0e9bde;color: #ffffff;"
+                            onclick="location.href='/requires.html'">
+                        发布需求
+                    </button>
+                    <h4 class=" font-bold padder-v m-t-xxl">当前已有</h4>
+
+                    <h2>118</h2>
+
+                    <h4 class="font-bold m-t-lg">人发布了需求</h4>
+
+                </div>
+            </div>
+        </div>
+        <div class="clear ">
+            <div id="newRequire_template" style="display: none">
+                <div class="list-group-item" style="padding:0px;">
+                    <div class="row" style="padding: 0px;">
+                        <a href="/requireDetail.html?id=$[id]">
+                            <div class="col-sm-10" style="padding-top: 10px;padding-left: 30px;">
+                                <p class="font-bold">$[title]</p>
+                                <p>
+                                    <i class="fa fa-clock-o m-r-xs"></i><span>$[timestr]</span>
+                                </p>
+
+                                <p class="text-ellipsis">
+                                    $[content]
+                                </p>
+                            </div>
+                        </a>
+                        <a href="/receiveOrder.html?id=$[id]" class="col-sm-2 bg-light wrapper-a">
+                            <span class="arrow left arrow-light"></span>
+                            <div class="font-bold vertical-center">
+                                <span>我要接单 <i class="fa fa-chevron-circle-right"></i></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group m-b-none" id="newRequire_list" style="line-height: 23px;">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    //获取最新需求
+    $.get("/requires/selectAll",function(data){
+        var arr = data.slice(-4);
+        var temp = $("#newRequire_template").children().prop('outerHTML');
+        for(var i in arr){
+            var item = arr[i];
+            item.timestr = formatTimeToStr(item.time);
+            var $temp = $(temp);
+            replaceElementInnerText($temp,item);
+            $("#newRequire_list").append($temp);
+        }
+        console.log(arr);
+    },'json');
+</script>
+

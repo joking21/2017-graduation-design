@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/css/font-awesome.min.css'/>
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <link rel='stylesheet' href='/css/app.css'/>
+    <link rel='stylesheet' href='/css/animate.css'/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/layer/layer.js"></script>
+    <!--<script src="/js/app.min.js"></script>-->
+    <style>
+        .app-footer{
+            position: absolute;
+            bottom: 0px !important;
+        }
+    </style>
+</head>
+<body id="app">
+<div class="header"></div>
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- .breadcrumb -->
+                <ul class="breadcrumb no-borders no-radius bg-white  b-b ">
+                    <li><a href="/"><i class="icon icon-home"></i> 首页</a></li>
+                    <li class="active">发布需求</li>
+                </ul>
+                <!-- / .breadcrumb -->
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <form id="release_needForm" data-parsley-validate="true" novalidate="">
+                    <!--弹出选择类型（保留！！！！）-->
+                    <!--弹出选择类型（保留！！！！）-->
+                    <div class="form-group">
+                        <label class="m-b-sm"><span class="text-danger">*</span>标题</label>
+                        <input type="text" class="form-control" name="title" maxlength="20"
+                               placeholder="限20字，给您的需求取个直观醒目的标题" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <label class="m-b-sm"> <span class="text-danger">*</span>详细描述您的需求</label>
+                        <textarea name="brief_introduction" id="" maxlength="2000" cols="30" rows="10" class="form-control" style="resize: none" placeholder="清楚、详细的告诉大家您到底需要什么。服务方将更快、更准确的找到您。"></textarea>
+                        <input type="hidden" name="whether_budget">
+                    </div>
+                    <div class="col-sm-12 m-t-lg text-center">
+                        <button type="button" onclick="history.go(-1)" id="goBack" class="btn btn-default m-r-lg w-xs ">
+                            取消
+
+                        </button>
+
+                        <a class="btn btn-info m-l-lg" id="need_submit">
+                            <span class="m-l-md m-r-md">发布</span>
+
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="footer"></div>
+</body>
+<script>
+    jQuery(".header").load("header.html");
+    jQuery(".footer").load("footer.html");
+    setTimeout(function(){
+        $("#headerStyle li").removeClass('active');
+    },100);
+    var userId ;
+    var type ;
+    $.get('/users/selUserMes',{name:sessionStorage.getItem('loginName')},function(data){
+        if(data){
+            console.log(data);
+            console.log(data[0].id);
+            userId = data[0].id;
+            type = data[0].type;
+        }
+    },'json');
+    //发布需求
+    $("#need_submit").click(function(){
+        if(userId){
+            if(type!=1){
+                layer.msg('只有企业用户才能发布需求，您可以先注册一个账号成为企业用户！', {icon: 5, time: 4000,});
+            }else{
+                var prarm = {
+                    title : $("input[name=title]").val(),
+                    content : $("textarea[name=brief_introduction]").val(),
+                    user:userId,
+                    time : new Date(),
+                    status:1,
+                    userName:sessionStorage.getItem('loginName')
+                }
+                $.get('/requires/addrequire',prarm,function(data){
+                    console.log(data);
+                    if(data.code==200){
+                        layer.msg('新增成功！', {icon: 6, time: 4000,});
+                        window.location.href='/myCenter.html'
+                    }
+                },'json')
+            }
+        }else{
+            layer.msg('您还没有登录，请您先登录！', {icon: 2, time: 4000,});
+        }
+    })
+</script>
+
+</html>

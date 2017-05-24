@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="utf-8" />
+    <title>网上物流管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font.css" type="text/css" />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/layer/layer.js"></script>
+    <style>
+
+        input.parsley-error {
+            background-color: white !important;
+        }
+
+        .verticalCenter {
+            display: flex;
+            margin: 0 auto;
+            align-items: center;
+            -webkit-align-items: center;
+            justify-content: center;
+        }
+
+        .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+            background-color: white;
+            opacity: 1;
+        }
+
+        body {
+            width: 100%;
+            overflow: hidden;
+            background: url("img/login_manage_bg.jpg") no-repeat center;
+            background-size: cover;
+        }
+
+        .img_logo {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 485px;
+            height: 577px;
+        }
+
+        .login-box {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 327px;
+            height: 241px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .form-validation {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+        .form-validation > .form-input,
+        .form-validation > .form-input input,
+        .form-validation > .form-input .button {
+            width: 100%;
+            height: 46px;
+            line-height: 46px;
+        }
+
+        .form-validation > .form-input input {
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #fff;
+            /*-webkit-box-shadow: 0 0 0 1000px #fff inset;*/
+        }
+
+        /*.form-validation > .form-input input:focus {*/
+        /*background-color: #eee !important;*/
+        /*border: 1px solid #2f8cff;*/
+        /*}*/
+
+        .form-validation > .form-input input:nth-child(1) {
+            margin-top: 21px;
+            border-bottom: none;
+        }
+
+        .form-validation > .form-input .button {
+            position: absolute;
+            top:185px;
+            bottom: 35px;
+            width: 297px;
+            border: none;
+            font-size: 18px;
+            background-color: #2f8cff;
+            color: #fff;
+        }
+
+        .app-footer {
+            padding: 10px;
+            margin-left: 0;
+            color: #43e2ff;
+            font-size: 12px;
+        }
+
+        .list-group-item {
+            top:10px;
+        }
+        .list-group-item > input:focus{
+            border: 1px solid #eee;
+        }
+        .list-group-item > input,
+        .list-group-item > .input-group input,
+        .list-group-item > .input-group img,
+        .list-group-item > .input-group .button{
+            border: 1px solid #eee;
+            border-radius: 0;
+        }
+        .list-group-item > .input-group img,
+        .list-group-item > .input-group .button{
+            border-left: none;
+        }
+        .list-group-item > input.offset-border{
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+        .list-group-item > .input-group input,
+        .list-group-item > .input-group .button{
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+        .parsley-errors-list.filled {
+            padding: 0 10px;
+        }
+        .input-group .parsley-errors-list.filled {
+            margin-top: 49px !important;
+        }
+    </style>
+
+</head>
+<body>
+<section class="app verticalCenter">
+    <div class="img_logo">
+        <img src="img/login_manage_logo.png" alt="">
+    </div>
+    <div class="login-box">
+        <form name="form" class="form form-validation" id="info_form" novalidate="">
+            <div class="form-input">
+                <input type="text" placeholder="输入您的账号" autocomplete="off" name="loginName" data-trigger="change" data-parsley-required-message="请输入帐号" required="required">
+            </div>
+            <div class="form-input m-t-md">
+                <input type="password" placeholder="输入您的登录密码" autocomplete="off" name="password" data-trigger="change" data-parsley-required-message="请输入密码" required="required">
+            </div>
+            <div class="form-input">
+                <a class="button text-center" id="loginIn">登录  <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+        </form>
+    </div>
+    <div class="app-footer text-center">
+
+        <p>  © 2017 Copyright. 邓雯文</p>
+
+    </div>
+</section>
+
+<script type="text/javascript">
+    var $ = jQuery;
+//    $("#loginIn").click(function{
+       /* $.get("/admin/selectPass",{},function(data){
+
+        })*/
+//    })
+//    $()
+    $("#loginIn").click(function(){
+        var name = $("input[name=loginName]").val();
+        var password = $("input[name=password]").val();
+        console.log(name);
+        $.get("/users/selectAdminPass",{name:name},function(data){
+            console.log(data);
+            if(data.length!=0){
+                if(data[0].password==password){
+                    layer.msg('登录成功！', {icon: 1, time: 4000,});
+                    sessionStorage.setItem("loginName", name);
+                    location.href = "/admin/web.html";
+                }else{
+                    layer.msg('密码错误！', {icon: 2, time: 4000});
+                }
+            }else{
+                layer.msg('暂无此用户！请您先注册账号！', {icon: 2, time: 4000,});
+            }
+        },'json')
+    })
+</script>
+
+</body>
+</html>

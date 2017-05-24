@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="utf-8" />
+    <title>网上物流管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font.css" type="text/css" />
+</head>
+<body>
+<div class="app app-header-fixed ">
+    <header id="header" class="app-header navbar bg-header text-white" role="menu">
+        <div class="navbar padder hidden-xs bg-dark bg-image">
+            <ul class="nav navbar-nav m-l-n">
+                <li>
+                    <div class="index-logo" style="padding: 9px 17px;">
+                        <a href="/">
+                            <img src="img/logo.png" class="img-full">
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><span class="inline m-t" style="color: #fff">欢迎管理员</span></li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle clear">
+                        <span id="user-role" style="color: #fff"> admin</span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu animated fadeIn">
+                        <li id="exit-login">
+                            <a ui-sref="access.signin">退出</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <aside id="aside" class="app-aside hidden-xs bg-dark m-t-sm">
+        <div class="aside-wrap">
+            <div class="hidden-xs">
+                <a href="#" aside-toggle="" class="btn btn-default btn-block bg-gd" ui-toggle-class="app-aside-folded" target=".app">
+                    <i class="fa fa-dedent text"></i>
+                    <i class="fa fa-indent text-active"></i>
+                </a>
+            </div>
+            <div class="navi-wrap">
+                <nav class="navi clearfix">
+                    <ul class="nav" id="avtiveNav">
+                        <li class="m-t-md">
+                            <a href="web.html" class="auto">
+                                <i class="glyphicon glyphicon-home text-md"></i>
+                                <span>首页</span>
+                            </a>
+                        </li>
+                        <li class="m-t-md">
+                            <a href="user.html" class="auto">
+                                <i class="fa fa-user text-md"></i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                        <li class="m-t-md">
+                            <a href="success.html">
+                                <i class="fa fa-taxi text-md"></i>
+                                <span>成交订单管理</span>
+                            </a>
+                        </li>
+                        <li class="m-t-md">
+                            <a href="new.html" class="auto">
+                                <i class="glyphicon glyphicon-inbox text-md"></i>
+                                <span>新订单管理</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </aside>
+    <!-- content -->
+    <div id="content" class="app-content" role="main">
+        <div class="app-content-body ">
+            <div class="bg-light lter b-b wrapper-md">
+                <h1 class="m-n font-thin h3">成交订单管理</h1>
+            </div>
+            <div class="wrapper-md">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+
+                    </div>
+                    <div>
+                        <table class="hidden">
+                            <tbody id="userTeml">
+                            <tr>
+                                <td>$[index]</td>
+                                <td>$[id]</td>
+                                <td>$[title]</td>
+                                <td>$[userName]</td>
+                                <td>$[receiveName]</td>
+                                <td>$[timeStr]</td>
+                          <!--      <td>
+                                    <a class="btn btn-danger  btn-xs" title="删除" data-name="delete" data-id="$[id]">
+                                        <i class="glyphicon glyphicon-trash"></i></a></td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td>序号</td>
+                                <th>订单ID</th>
+                                <th>标题</th>
+                                <th>发布人</th>
+                                <th>受理人</th>
+                                <th>操作时间</th>
+                                <!--<th>操作</th>-->
+                            </tr>
+                            </thead>
+                            <tbody id="userList">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /content -->
+
+    <!-- footer -->
+    <footer id="footer" class="app-footer" role="footer">
+        <div class="wrapper b-t bg-light">
+            © 2017 Copyright. 邓雯文
+        </div>
+    </footer>
+    <!-- / footer -->
+
+</div>
+<script src="js/app.min.js"></script>
+<script src="/layer/layer.js"></script>
+<script src="js/main.js"></script>
+<script>
+    $("#avtiveNav li:eq(2)").addClass("active");
+    $.get('/order/selectSuccess',{status:4},function(data){
+        console.log(data);
+        var temp = $("#userTeml").children().prop('outerHTML');
+        var j =1;
+        for(var i in data){
+            var item = data[i];
+            var $temp = $(temp);
+            item.index = j;
+            item.timeStr = formatTimeToStr(item.time) ;
+            replaceElementInnerText($temp,item);
+            $("#userList").append($temp);
+            j++;
+        }
+    },'json');
+    function resert(){
+        $("a[data-name=resert]").click(function(){
+            var dataId = $(this).attr('data-id');
+            layer.confirm('您确定要重置该用户的密码吗？', {
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.get("/users/updatepassword",{id:dataId,password:111111},function(data){
+                    console.log(data);
+                    if(data.protocol41){
+                        layer.msg("重置密码成功！",{icon: 1, time: 4000})
+                    }
+                },'json')
+                $(".layui-layer-btn1").trigger('click');
+            }, function () {
+
+            });
+        })
+    };
+    function deleteUser(){
+        $("a[data-name=delete]").click(function(){
+            var dataId = $(this).attr('data-id');
+            layer.confirm('您确定要删除该用户吗？删除将不能恢复！', {
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.get("/users/deleteUser",{id:dataId},function(data){
+                    console.log(data);
+                    if(data.protocol41){
+                        layer.msg("删除用户成功！",{icon: 1, time: 4000})
+                        window.location.href='/admin/web.html';
+                    }
+                },'json')
+                $(".layui-layer-btn1").trigger('click');
+            }, function () {
+
+            });
+        })
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/css/font-awesome.min.css'/>
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <link rel='stylesheet' href='/css/app.css'/>
+    <link rel='stylesheet' href='/css/animate.css'/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/layer/layer.js"></script>
+    <style>
+        /*  #status div{
+              width: 100px;
+              height:100px;
+              border-radius: 50%;
+              background-color: #3a3f51;
+          }
+          #status div：before{
+              border: 2px solid #ff0000;
+          }*/
+        .circle{
+            position: relative;
+            width: 81px;
+            line-height: 75px;
+            border-radius: 75px;
+            border: 3px solid #23b7e5;
+            margin-top: 10px;
+        }
+        .bgColor{
+            background-color: #23b7e5;
+            color:#fff;
+        }
+        .panel-heading{
+            background-color: #23b7e5 !important;
+            color:#fff !important;;
+        }
+        .title{
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .app-footer{
+            position: absolute;
+            bottom: 0px !important;
+        }
+    </style>
+</head>
+<body id="app">
+<div class="header"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- .breadcrumb -->
+            <ul class="breadcrumb no-borders no-radius bg-white  b-b ">
+                <li><a href="/"><i class="icon icon-home"></i> 首页</a></li>
+                <li><a href="/requireShow.html"><i class="icon icon-home"></i> 需求展示</a></li>
+                <li class="active">需求详情</li>
+            </ul>
+            <!-- / .breadcrumb -->
+        </div>
+    </div>
+    <div class="row" id="detail">
+        <div class="panel panel-default project2">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="padding-left:13px;">详情</h3>
+            </div>
+            <div class="panel-body " style="min-height: 240px;">
+                <div class="title text-center">
+                   标题： $[title]
+                </div>
+                <div class="row text-center m-l-lg">
+                    <div class="col-xs-1"></div>
+                    <div class="pull-left">
+                        <div class="b-a b-info text-center circle precess1" style="margin-top: 31px;">未运输</div>
+                    </div>
+                    <div class="pull-left step_1 "  style="width: 15%;">
+                        <div class="b-a b-info b-2x line"  style="margin-top: 70px;"></div>
+                    </div>
+                    <div class="pull-left step_1 m-t-md">
+                        <div class="circle b-a b-info text-center precess2">已受理</div>
+                    </div>
+                    <div class="pull-left step_2"  style="width: 15%;">
+                        <div class="b-a b-info b-2x line"  style="margin-top: 70px;"></div>
+                    </div>
+                    <div class="pull-left step_2 m-t-md">
+                        <div class="circle b-a b-info text-center precess3">运输中</div>
+                    </div>
+                    <div class="pull-left"  style="width: 15%;">
+                        <div class="b-a b-info b-2x line"  style="margin-top: 70px;"></div>
+                    </div>
+                    <div class="pull-left step_3 m-t-md">
+                        <div class="circle b-a b-info text-center precess4">交易成功</div>
+                    </div>
+                </div>
+                <div class="content m-t-md">
+                     $[content]
+                </div>
+                <div class="m-t-xxl text-center">
+                    <a class="btn btn-info w-sm" id="receive">接单</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="footer"></div>
+</body>
+<script>
+    jQuery(".header").load("header.html");
+    jQuery(".footer").load("footer.html");
+    setTimeout(function(){
+        $("#headerStyle li").removeClass('active');
+    },100);
+    var index = getQueryString('id');
+    var userName =sessionStorage.getItem('loginName');
+    var userId ;
+    var type ;
+//    var receive =
+    if(getQueryString('receive')){
+        $("#receive").parent().addClass('hidden');
+    }
+    $.get("/requires/selectDetail",{id:index},function(data){
+        console.log(data);
+        replaceElementInnerText($("#detail"),data[0]);
+        if(data[0].status!=1){
+            $("#receive").attr('disabled','disabled')
+        }
+        for(var i = 1;i<=data[0].status;i++){
+            $(".project2 .precess"+i).addClass('bgColor');
+        }
+        receive();
+    },'json').done(function(){
+        $.get("/users/selUserMes",{name:userName},function(data){
+            userId = data[0].id;
+            type = data[0].type;
+        },'json')
+    })
+    function receive(){
+        $("#receive").click(function(){
+            if(userId){
+                if(type!=2){
+                    layer.msg('只有物流公司用户才能受理订单，您可以先注册一个账号，成为物流公司用户！', {icon: 5, time: 4000,});
+                }else{
+                    var time = new Date();
+                    $.get("/order/addOrder",{req_id:index,user_id:userId,time:time,receiveName:userName},function(data){
+                        console.log(data);
+                        if(data.code==200){
+                            $.get("/requires/updateStatus",{id:index,status:2},function(data){
+                                console.log(data);
+                                if(data.protocol41){
+                                    layer.msg('受理订单成功！', {icon: 6, time: 4000,});
+                                    window.location.href='/myCenter.html';
+                                }
+                            })
+                        }
+                    },'json')
+                }
+            }else{
+                layer.msg('请您先登录账号！', {icon: 2, time: 4000,});
+            }
+
+        })
+    }
+
+
+</script>
+
+</html>

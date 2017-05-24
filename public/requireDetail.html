@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/css/font-awesome.min.css'/>
+    <link rel='stylesheet' href='/css/bootstrap.css'/>
+    <link rel='stylesheet' href='/css/app.css'/>
+    <link rel='stylesheet' href='/css/animate.css'/>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/main.js"></script>
+    <style>
+      /*  #status div{
+            width: 100px;
+            height:100px;
+            border-radius: 50%;
+            background-color: #3a3f51;
+        }
+        #status div：before{
+            border: 2px solid #ff0000;
+        }*/
+    </style>
+</head>
+<body id="app">
+<div class="header"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- .breadcrumb -->
+            <ul class="breadcrumb no-borders no-radius bg-white  b-b ">
+                <li><a href="/"><i class="icon icon-home"></i> 首页</a></li>
+                <li><a href="/requireShow.html"><i class="icon icon-home"></i> 需求展示</a></li>
+                <li class="active">需求详情</li>
+            </ul>
+            <!-- / .breadcrumb -->
+        </div>
+    </div>
+    <div class="row" id="detail">
+         <div class="title text-center">
+             $[title]
+         </div>
+        <div class="text-center m-t-xxl m-b-xxl">
+            $[timeStr]
+        </div>
+        <div class="">
+            $[content]
+        </div>
+    </div>
+</div>
+<div class="footer"></div>
+</body>
+<script>
+    jQuery(".header").load("header.html");
+    jQuery(".footer").load("footer.html");
+    setTimeout(function(){
+        $("#headerStyle li").removeClass('active');
+    },100);
+    var index = getQueryString('id');
+    console.log(index);
+    $.get("/requires/selectDetail",{id:index},function(data){
+      console.log(data);
+      data[0].timeStr = formatTimeToStr(data[0].time);
+      replaceElementInnerText($("#detail"),data[0]);
+    },'json')
+</script>
+
+</html>
