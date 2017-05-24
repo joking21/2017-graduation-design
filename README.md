@@ -6,7 +6,7 @@ var p = path.join(__dirname, '../public')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: '我日' });
+  res.render('index', { title: 'joking' });
 });
 router.get('/a', function(req, res, next) {
     res.sendFile(p+'/a.html');
